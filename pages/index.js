@@ -14,14 +14,12 @@ export default function Home({ data }) {
   )
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(context) {
   const res = await fetch(`http://localhost:8000`)
   const data = await res.json()
 
-  if (!data) {
-    return {
-      notFound: true,
-    }
+  if (data?.detail === 'Not Found') {
+    return { notFound: true }
   }
 
   return {
