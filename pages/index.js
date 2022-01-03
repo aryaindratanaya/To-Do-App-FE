@@ -10,8 +10,6 @@ export default function Home({ data, error }) {
   useEffect(() => {
     if (error) {
       toast({ type: 'error', description: error })
-    } else {
-      toast({})
     }
   })
 
@@ -26,7 +24,7 @@ export default function Home({ data, error }) {
 
 export async function getStaticProps() {
   try {
-    const result = await axios.get(`http://localhost:8000`)
+    const result = await axios.get(process.env.API_HOST)
     const data = result.data
     return {
       props: {
