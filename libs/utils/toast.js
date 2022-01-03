@@ -1,4 +1,5 @@
 import { notification } from 'antd'
+import capitalizeFirstLetter from './capitalizeFirstLetter'
 
 /**
  * Generate a notification toast.
@@ -6,7 +7,11 @@ import { notification } from 'antd'
  * @param {string} message - Preferably not to be left empty.
  * @param {string} description - Can be left empty.
  */
-const toast = ({ type = 'success', message = type, description }) => {
+const toast = ({
+  type = 'success',
+  message = capitalizeFirstLetter(type),
+  description,
+}) => {
   notification[type]({
     message: message,
     description: description,
