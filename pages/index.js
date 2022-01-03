@@ -34,7 +34,7 @@ export async function getStaticProps() {
       // - When a request comes in
       // - At most once every 2 seconds
       // Note: not to be confused - this does not make a request
-      revalidate: 2, //
+      revalidate: 2,
     }
   } catch (error) {
     return {
