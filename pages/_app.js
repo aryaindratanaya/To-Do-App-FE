@@ -1,8 +1,7 @@
 import Head from 'next/head'
-
 import 'styles/antd.less'
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -31,5 +30,3 @@ function MyApp({ Component, pageProps }) {
     </>
   )
 }
-
-export default MyApp
