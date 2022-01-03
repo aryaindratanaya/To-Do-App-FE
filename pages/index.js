@@ -1,4 +1,4 @@
-import { Card, Table } from 'antd'
+import { Card, Table, Button } from 'antd'
 
 import { columns } from 'utils/columns/Home'
 
@@ -6,7 +6,7 @@ import s from 'styles/Home.module.css'
 
 export default function Home({ data }) {
   return (
-    <main>
+    <main className={s.main}>
       <Card title="To Do List" className={s.toDoCard}>
         <Table columns={columns} dataSource={data || []} />
       </Card>
@@ -14,7 +14,7 @@ export default function Home({ data }) {
   )
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   const res = await fetch(`http://localhost:8000`)
   const data = await res.json()
 
