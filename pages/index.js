@@ -1,9 +1,15 @@
-import { Card, Button } from 'antd'
+import { Card, Table } from 'antd'
+
+import { columns } from 'utils/Home'
+
+import s from 'styles/Home.module.css'
 
 export default function Home() {
   return (
-    <Card title="Welcome">
-      Hello World! <Button>This is an antd button</Button>
-    </Card>
+    <main>
+      <Card title="To Do List" className={s.toDoCard}>
+        <Table columns={columns} dataSource={[]} />
+      </Card>
+    </main>
   )
 }
