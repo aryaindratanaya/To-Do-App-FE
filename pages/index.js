@@ -1,6 +1,6 @@
 import { Card, Table, Button } from 'antd'
 
-import { columns } from 'utils/columns/Home'
+import { columns } from 'libs/columns/Home'
 
 import s from 'styles/Home.module.css'
 
