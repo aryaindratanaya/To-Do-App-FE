@@ -1,16 +1,16 @@
-import { addToDo, useToDos } from 'libs/hooks/toDo'
+import { useToDos } from 'libs/hooks/toDo'
 import { Card, Table, Form, Button, Input } from 'antd'
 import { columns } from 'libs/columns/Home'
 import getQuery from 'libs/utils/getQuery'
 import s from 'styles/Home.module.css'
 
 export default function Home() {
-  const { loading, data: toDos } = useToDos(getQuery())
+  const { loading, data, onAdd } = useToDos(getQuery())
 
   return (
     <main className={s.main}>
       <Card title="To Do" className={s.toDoCard}>
-        <Form name="add_to_do" onFinish={addToDo}>
+        <Form name="add_to_do" onFinish={onAdd}>
           <Form.Item
             label="Item"
             name="item"
@@ -25,7 +25,7 @@ export default function Home() {
           </Form.Item>
         </Form>
 
-        <Table columns={columns} dataSource={toDos || []} loading={loading} />
+        <Table columns={columns} dataSource={data || []} loading={loading} />
       </Card>
     </main>
   )
