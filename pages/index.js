@@ -1,46 +1,57 @@
 import { useEffect } from 'react'
-import axios from 'axios'
-import { Card, Table } from 'antd'
+import useSWR from 'swr'
+import { addToDo } from 'libs/hooks/toDo'
+import { Card, Table, Form, Button, Input } from 'antd'
 import toast from 'libs/utils/toast'
 import { columns } from 'libs/columns/Home'
 import s from 'styles/Home.module.css'
 
-export default function Home({ data, error }) {
-  // pop a toast if there is an error when fetching
+const fetcher = (url) => fetch(url).then((res) => res.json())
+
+export default function ToDo() {
+  const { data, error } = useSWR('http://localhost:8000', fetcher)
+
+  // Pop a toast on loading || error || success
   useEffect(() => {
     if (error) {
-      toast({ type: 'error', description: error })
+      toast({ type: 'error', description: error.toString() })
+    }
+    if (!data) {
+      toast({ type: 'info', description: 'Fetching data . . .' })
+    }
+    if (data && !error) {
+      toast({ description: 'Data has been loaded' })
     }
   })
 
+  const onFinish = (values) => {
+    addToDo(values)
+  }
+
   return (
     <main className={s.main}>
-      <Card title="To Do List" className={s.toDoCard}>
-        <Table columns={columns} dataSource={data || []} />
+      <Card title="To Do" className={s.toDoCard}>
+        <Form name="add_to_do" onFinish={onFinish}>
+          <Form.Item
+            label="Item"
+            name="item"
+            rules={[{ required: true, message: 'Please input an item!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              Add
+            </Button>
+          </Form.Item>
+        </Form>
+
+        <Table
+          loading={!data && !error}
+          columns={columns}
+          dataSource={data || []}
+        />
       </Card>
     </main>
   )
-}
-
-export async function getStaticProps() {
-  try {
-    const result = await axios.get(process.env.API_HOST)
-    const data = result.data
-    return {
-      props: {
-        data: data,
-      },
-      // Next.js will attempt to re-generate the page:
-      // - When a request comes in
-      // - At most once every 2 seconds
-      // Note: not to be confused - this does not make a request
-      revalidate: 2,
-    }
-  } catch (error) {
-    return {
-      props: {
-        error: error.toString(),
-      },
-    }
-  }
 }
