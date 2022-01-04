@@ -1,10 +1,11 @@
 import { addToDo, useToDos } from 'libs/hooks/toDo'
 import { Card, Table, Form, Button, Input } from 'antd'
 import { columns } from 'libs/columns/Home'
+import getQuery from 'libs/utils/getQuery'
 import s from 'styles/Home.module.css'
 
-export default function ToDo() {
-  const { loading, data: toDos } = useToDos('')
+export default function Home() {
+  const { loading, data: toDos } = useToDos(getQuery())
 
   return (
     <main className={s.main}>
