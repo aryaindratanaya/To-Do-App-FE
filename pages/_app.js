@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import { SWRConfig } from 'swr'
+import { fetcher } from 'libs/utils/api'
 import 'styles/antd.less'
 
 export default function MyApp({ Component, pageProps }) {
@@ -26,7 +28,14 @@ export default function MyApp({ Component, pageProps }) {
         <link rel="canonical" href="#"></link>
       </Head>
 
-      <Component {...pageProps} />
+      <SWRConfig
+        value={{
+          refreshInterval: 3000,
+          fetcher,
+        }}
+      >
+        <Component {...pageProps} />
+      </SWRConfig>
     </>
   )
 }

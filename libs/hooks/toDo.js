@@ -1,6 +1,7 @@
 import axios from 'axios'
 import config from 'config'
 import toast from 'libs/utils/toast'
+import useSWR from 'swr'
 
 export function addToDo(values) {
   axios
@@ -12,4 +13,14 @@ export function addToDo(values) {
     .catch((err) => {
       toast({ type: 'error', description: err.toString() })
     })
+}
+
+export const useToDos = (query) => {
+  const pathKeys = '/' + query
+  const { data, error } = useSWR(pathKeys)
+
+  return {
+    data,
+    loading: !error && !data,
+  }
 }
