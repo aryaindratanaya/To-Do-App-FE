@@ -6,11 +6,17 @@ import s from 'styles/Home.module.css'
 
 export default function Home() {
   const { loading, data, onAdd } = useToDos(getQuery())
+  const [form] = Form.useForm()
+
+  const onFinish = async (values) => {
+    const res = await onAdd(values)
+    res?.status === 200 && form.resetFields()
+  }
 
   return (
     <main className={s.main}>
       <Card title="To Do" className={s.toDoCard}>
-        <Form name="add_to_do" onFinish={onAdd}>
+        <Form onFinish={onFinish} form={form}>
           <Form.Item
             label="Item"
             name="item"
@@ -25,7 +31,12 @@ export default function Home() {
           </Form.Item>
         </Form>
 
-        <Table columns={columns} dataSource={data || []} loading={loading} />
+        <Table
+          columns={columns}
+          // Add a unique 'key' to each child in a list
+          dataSource={data?.map((item, i) => ({ ...item, key: i })) || []}
+          loading={loading}
+        />
       </Card>
     </main>
   )
