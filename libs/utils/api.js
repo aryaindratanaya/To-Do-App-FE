@@ -14,7 +14,7 @@ export const fetcher = (url) => {
       return res?.data
     })
     .catch((err) => {
-      toast({ type: 'error', description: err.toString() })
+      toast({ type: 'error', description: err?.toString() })
     })
 }
 

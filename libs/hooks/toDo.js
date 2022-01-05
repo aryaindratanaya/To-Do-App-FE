@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import api from 'libs/utils/api'
 import toast from 'libs/utils/toast'
 
@@ -10,22 +10,24 @@ export const useToDos = (query) => {
   const pathKeys = path + query
 
   // GET - Read all
-  const { data, error } = useSWR(pathKeys)
+  const { data, error, isValidating } = useSWR(pathKeys)
 
   // POST - Add one
   const onAdd = useCallback(async (values) => {
     try {
       const res = await api.post(path, values)
-      console.log(res)
+      // pop a toast on success
+      res?.status === 200 && toast({ description: 'An item has been added' })
+      // revalidate the data in the table
+      mutate(pathKeys)
     } catch (err) {
-      console.log(err)
-      toast({ type: 'error', description: err.toString() })
+      toast({ type: 'error', description: err?.toString() })
     }
   })
 
   return {
     data,
     onAdd,
-    loading: !error && !data,
+    loading: (!error && !data) || isValidating,
   }
 }

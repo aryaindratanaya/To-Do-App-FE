@@ -8,5 +8,6 @@ export const columns = [
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
+    render: (v) => (v ? 'Done' : 'Not Done Yet'),
   },
 ]
