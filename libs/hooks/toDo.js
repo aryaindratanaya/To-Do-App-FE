@@ -5,11 +5,9 @@ import toast from 'libs/utils/toast'
 // Backend API endpoint
 const path = '/'
 
-export const useToDos = (query) => {
-  const pathKeys = path + query
-
+export const useToDos = () => {
   // GET - Read all
-  const { data, error, isValidating } = useSWR(pathKeys)
+  const { data, error, isValidating } = useSWR(path)
 
   // POST - Add one
   const onAdd = async (values) => {
@@ -18,7 +16,7 @@ export const useToDos = (query) => {
       // pop a toast on success
       res?.status === 200 && toast({ description: 'An item has been added' })
       // revalidate the stale data after addition
-      mutate(pathKeys)
+      mutate(path)
       return res
     } catch (err) {
       toast({ type: 'error', description: err?.toString() })

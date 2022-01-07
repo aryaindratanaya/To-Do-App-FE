@@ -1,11 +1,10 @@
 import { useToDos } from 'libs/hooks/toDo'
 import { Card, Table, Form, Button, Input } from 'antd'
 import { columns } from 'libs/columns/Home'
-import getQuery from 'libs/utils/getQuery'
 import s from 'styles/Home.module.css'
 
 export default function Home() {
-  const { loading, data, onAdd } = useToDos(getQuery())
+  const { loading, data, onAdd } = useToDos()
   const [form] = Form.useForm()
 
   const onFinish = async (values) => {
